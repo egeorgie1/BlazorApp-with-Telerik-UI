@@ -1,0 +1,56 @@
+﻿@page "/"
+
+<TelerikButton OnClick="@SayHelloHandler" Primary="true">Say Hello</TelerikButton>
+
+<br />
+
+@helloString
+
+<br />
+
+<TelerikGrid Data="@MyData" Height="400px"
+             Pageable="true" Sortable="true" Groupable="true"
+             FilterMode="Telerik.Blazor.GridFilterMode.FilterRow"
+             Resizable="true" Reorderable="true">
+    <GridColumns>
+        <GridColumn Field="@(nameof(Presentation.Id))" Title="Presentation Number" Width="120px" />
+        <GridColumn Field="@(nameof(Presentation.Topic))" />
+        <GridColumn Field="@(nameof(Presentation.Speaker))" />
+        <GridColumn Field="@(nameof(Presentation.Date))" />
+        <GridColumn Field="@(nameof(Presentation.Preference))" />
+    </GridColumns>
+</TelerikGrid>
+
+@code {
+        MarkupString helloString;
+
+        void SayHelloHandler()
+        {
+            string msg = string.Format("Hello from <strong>Telerik Blazor</strong> at {0}.<br /> Now you can use C# to write front-end!", DateTime.Now);
+            helloString = new MarkupString(msg);
+        }
+
+       
+       IEnumerable<Presentation> MyData = Index.InitializeDataCollection();
+
+       static List<Presentation> InitializeDataCollection()
+       {
+         List<Presentation> presentations = new List<Presentation>();
+
+         presentations.Add(new Presentation {Id = 1,  Topic = "CSS selectors", Speaker = "Ivan Ivanov", Date = DateTime.Now.AddDays(1), Preference = "Interesting" });
+         presentations.Add(new Presentation { Id = 5,  Topic = "HTML5", Speaker = "Georgi Ivanov", Date = DateTime.Now.AddDays(2), Preference = "No value" });
+         presentations.Add(new Presentation { Id = 8,  Topic = "JavaScript", Speaker = "Maria Petrova", Date = DateTime.Now.AddDays(3), Preference = "Going" });
+         presentations.Add(new Presentation { Id = 70, Topic = "NativeScript", Speaker = "Petar Petrov", Date = DateTime.Now.AddDays(4), Preference = "No value" });
+
+         return presentations;
+       }
+
+    public class Presentation
+    {
+        public int Id { get; set; }
+        public string Topic { get; set; }
+        public string Speaker { get; set; }
+        public DateTime Date { get; set; }
+        public string Preference { get; set; }
+    }
+}
